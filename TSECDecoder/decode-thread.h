@@ -24,8 +24,5 @@ extern uv_rwlock_t g_rwlock;
 extern uint8_t decode_atomic;
 
 void decode_thread(void *arg);
-void decode_I010(uint8_t *buf, size_t size);
-void decode_I020(uint8_t *buf, size_t size);
-void decode_I080(uint8_t *buf, size_t size);
 
 #endif /* decode_thread_h */
