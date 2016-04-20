@@ -11,4 +11,4 @@ dependencies: \
   /usr/local/Cellar/libuv/HEAD/include/uv-darwin.h \
   /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/tcp-client.h \
   /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/redis-thread.h \
-  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/queue.h
+  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/libhl/queue.h

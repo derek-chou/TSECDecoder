@@ -9,6 +9,6 @@ dependencies: \
   /usr/local/Cellar/libuv/HEAD/include/uv-threadpool.h \
   /usr/local/Cellar/libuv/HEAD/include/uv-darwin.h \
   /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/redis-thread.h \
-  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/queue.h \
+  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/libhl/queue.h \
   /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/tsec-decoder.h \
   /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/fur-decoder.h

@@ -8,9 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		651A5AF11CBDD6BD00ED99CC /* tcp-client.c in Sources */ = {isa = PBXBuildFile; fileRef = 651A5AEF1CBDD6BD00ED99CC /* tcp-client.c */; };
-		651A5AF41CBDE97000ED99CC /* queue.c in Sources */ = {isa = PBXBuildFile; fileRef = 651A5AF21CBDE97000ED99CC /* queue.c */; };
-		651A5AF71CBDE9A200ED99CC /* refcnt.c in Sources */ = {isa = PBXBuildFile; fileRef = 651A5AF51CBDE9A200ED99CC /* refcnt.c */; };
-		651A5AFA1CBDE9D400ED99CC /* rqueue.c in Sources */ = {isa = PBXBuildFile; fileRef = 651A5AF81CBDE9D400ED99CC /* rqueue.c */; };
 		651A5AFE1CBE534E00ED99CC /* redis-thread.c in Sources */ = {isa = PBXBuildFile; fileRef = 651A5AFC1CBE534E00ED99CC /* redis-thread.c */; };
 		651A5B011CBF2A3B00ED99CC /* hiredis.c in Sources */ = {isa = PBXBuildFile; fileRef = 651A5AFF1CBF2A3B00ED99CC /* hiredis.c */; };
 		651A5B071CBF2AA400ED99CC /* net.c in Sources */ = {isa = PBXBuildFile; fileRef = 651A5B031CBF2AA400ED99CC /* net.c */; };
@@ -21,6 +18,9 @@
 		655930481CC640D100E425D0 /* tsec-decoder.c in Sources */ = {isa = PBXBuildFile; fileRef = 655930461CC640D100E425D0 /* tsec-decoder.c */; };
 		6562A04F1CB756AB00AD3317 /* ringbuf.c in Sources */ = {isa = PBXBuildFile; fileRef = 6562A04D1CB756AB00AD3317 /* ringbuf.c */; };
 		659EF6C31CC68B580057575A /* fur-decoder.c in Sources */ = {isa = PBXBuildFile; fileRef = 659EF6C11CC68B580057575A /* fur-decoder.c */; };
+		659EF6CD1CC6911C0057575A /* queue.c in Sources */ = {isa = PBXBuildFile; fileRef = 659EF6C71CC6911C0057575A /* queue.c */; };
+		659EF6CE1CC6911C0057575A /* refcnt.c in Sources */ = {isa = PBXBuildFile; fileRef = 659EF6C91CC6911C0057575A /* refcnt.c */; };
+		659EF6CF1CC6911C0057575A /* rqueue.c in Sources */ = {isa = PBXBuildFile; fileRef = 659EF6CB1CC6911C0057575A /* rqueue.c */; };
 		65C462291CBB886000C9D54F /* common.c in Sources */ = {isa = PBXBuildFile; fileRef = 65C462271CBB886000C9D54F /* common.c */; };
 		65C4622C1CBB8B2600C9D54F /* decode-thread.c in Sources */ = {isa = PBXBuildFile; fileRef = 65C4622A1CBB8B2600C9D54F /* decode-thread.c */; };
 /* End PBXBuildFile section */
@@ -40,13 +40,6 @@
 /* Begin PBXFileReference section */
 		651A5AEF1CBDD6BD00ED99CC /* tcp-client.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "tcp-client.c"; sourceTree = "<group>"; };
 		651A5AF01CBDD6BD00ED99CC /* tcp-client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "tcp-client.h"; sourceTree = "<group>"; };
-		651A5AF21CBDE97000ED99CC /* queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = queue.c; sourceTree = "<group>"; };
-		651A5AF31CBDE97000ED99CC /* queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = queue.h; sourceTree = "<group>"; };
-		651A5AF51CBDE9A200ED99CC /* refcnt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = refcnt.c; sourceTree = "<group>"; };
-		651A5AF61CBDE9A200ED99CC /* refcnt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = refcnt.h; sourceTree = "<group>"; };
-		651A5AF81CBDE9D400ED99CC /* rqueue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rqueue.c; sourceTree = "<group>"; };
-		651A5AF91CBDE9D400ED99CC /* rqueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rqueue.h; sourceTree = "<group>"; };
-		651A5AFB1CBDE9F700ED99CC /* atomic_defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atomic_defs.h; sourceTree = "<group>"; };
 		651A5AFC1CBE534E00ED99CC /* redis-thread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "redis-thread.c"; sourceTree = "<group>"; };
 		651A5AFD1CBE534E00ED99CC /* redis-thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "redis-thread.h"; sourceTree = "<group>"; };
 		651A5AFF1CBF2A3B00ED99CC /* hiredis.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hiredis.c; sourceTree = "<group>"; };
@@ -67,6 +60,13 @@
 		6562A04E1CB756AB00AD3317 /* ringbuf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ringbuf.h; sourceTree = "<group>"; };
 		659EF6C11CC68B580057575A /* fur-decoder.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "fur-decoder.c"; sourceTree = "<group>"; };
 		659EF6C21CC68B580057575A /* fur-decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "fur-decoder.h"; sourceTree = "<group>"; };
+		659EF6C61CC6911C0057575A /* atomic_defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = atomic_defs.h; path = libhl/atomic_defs.h; sourceTree = "<group>"; };
+		659EF6C71CC6911C0057575A /* queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = queue.c; path = libhl/queue.c; sourceTree = "<group>"; };
+		659EF6C81CC6911C0057575A /* queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = queue.h; path = libhl/queue.h; sourceTree = "<group>"; };
+		659EF6C91CC6911C0057575A /* refcnt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = refcnt.c; path = libhl/refcnt.c; sourceTree = "<group>"; };
+		659EF6CA1CC6911C0057575A /* refcnt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = refcnt.h; path = libhl/refcnt.h; sourceTree = "<group>"; };
+		659EF6CB1CC6911C0057575A /* rqueue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = rqueue.c; path = libhl/rqueue.c; sourceTree = "<group>"; };
+		659EF6CC1CC6911C0057575A /* rqueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rqueue.h; path = libhl/rqueue.h; sourceTree = "<group>"; };
 		65C462271CBB886000C9D54F /* common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = common.c; sourceTree = "<group>"; };
 		65C462281CBB886000C9D54F /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		65C4622A1CBB8B2600C9D54F /* decode-thread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "decode-thread.c"; sourceTree = "<group>"; };
@@ -101,20 +101,6 @@
 			name = hiredis;
 			sourceTree = "<group>";
 		};
-		651A5B0D1CBF3C9800ED99CC /* libhl */ = {
-			isa = PBXGroup;
-			children = (
-				651A5AFB1CBDE9F700ED99CC /* atomic_defs.h */,
-				651A5AF81CBDE9D400ED99CC /* rqueue.c */,
-				651A5AF91CBDE9D400ED99CC /* rqueue.h */,
-				651A5AF51CBDE9A200ED99CC /* refcnt.c */,
-				651A5AF61CBDE9A200ED99CC /* refcnt.h */,
-				651A5AF21CBDE97000ED99CC /* queue.c */,
-				651A5AF31CBDE97000ED99CC /* queue.h */,
-			);
-			name = libhl;
-			sourceTree = "<group>";
-		};
 		653B887C1CB4D39D0030769D = {
 			isa = PBXGroup;
 			children = (
@@ -134,7 +120,7 @@
 		653B88871CB4D39D0030769D /* TSECDecoder */ = {
 			isa = PBXGroup;
 			children = (
-				651A5B0D1CBF3C9800ED99CC /* libhl */,
+				659EF6C51CC691080057575A /* libhl */,
 				651A5B0C1CBF3C2500ED99CC /* hiredis */,
 				6562A04D1CB756AB00AD3317 /* ringbuf.c */,
 				6562A04E1CB756AB00AD3317 /* ringbuf.h */,
@@ -154,6 +140,20 @@
 				659EF6C21CC68B580057575A /* fur-decoder.h */,
 			);
 			path = TSECDecoder;
+			sourceTree = "<group>";
+		};
+		659EF6C51CC691080057575A /* libhl */ = {
+			isa = PBXGroup;
+			children = (
+				659EF6C61CC6911C0057575A /* atomic_defs.h */,
+				659EF6C71CC6911C0057575A /* queue.c */,
+				659EF6C81CC6911C0057575A /* queue.h */,
+				659EF6C91CC6911C0057575A /* refcnt.c */,
+				659EF6CA1CC6911C0057575A /* refcnt.h */,
+				659EF6CB1CC6911C0057575A /* rqueue.c */,
+				659EF6CC1CC6911C0057575A /* rqueue.h */,
+			);
+			name = libhl;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -212,21 +212,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				659EF6CF1CC6911C0057575A /* rqueue.c in Sources */,
 				659EF6C31CC68B580057575A /* fur-decoder.c in Sources */,
 				651A5B0B1CBF2ACF00ED99CC /* read.c in Sources */,
 				651A5B081CBF2AA400ED99CC /* sds.c in Sources */,
 				651A5B071CBF2AA400ED99CC /* net.c in Sources */,
 				651A5B011CBF2A3B00ED99CC /* hiredis.c in Sources */,
-				651A5AFA1CBDE9D400ED99CC /* rqueue.c in Sources */,
 				651A5AFE1CBE534E00ED99CC /* redis-thread.c in Sources */,
 				65C462291CBB886000C9D54F /* common.c in Sources */,
 				655930481CC640D100E425D0 /* tsec-decoder.c in Sources */,
 				65C4622C1CBB8B2600C9D54F /* decode-thread.c in Sources */,
 				653B88891CB4D39D0030769D /* main.c in Sources */,
-				651A5AF41CBDE97000ED99CC /* queue.c in Sources */,
 				651A5AF11CBDD6BD00ED99CC /* tcp-client.c in Sources */,
+				659EF6CD1CC6911C0057575A /* queue.c in Sources */,
 				6562A04F1CB756AB00AD3317 /* ringbuf.c in Sources */,
-				651A5AF71CBDE9A200ED99CC /* refcnt.c in Sources */,
+				659EF6CE1CC6911C0057575A /* refcnt.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

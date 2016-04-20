@@ -10,4 +10,4 @@ dependencies: \
   /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/decode-thread.h \
   /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/ringbuf.h \
   /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/redis-thread.h \
-  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/queue.h
+  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/libhl/queue.h
