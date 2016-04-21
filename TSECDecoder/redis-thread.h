@@ -12,11 +12,13 @@
 #include <stdio.h>
 #include "queue.h"
 
+#define MAX_INFO_LEN 1024
+
 typedef struct {
   char prod_id[21];
   char serial_no[9];
-  char type;
-  char msg[300];
+  uint8_t type;
+  char msg[MAX_INFO_LEN];
 } msg_packet;
 
 extern queue_t *g_redis_queue;

@@ -30,7 +30,7 @@ void redis_thread(void *arg) {
       
       if (mp != NULL) {
         char key[100] = {0x00};
-        snprintf(key, 100, "%s@%c", mp->prod_id, mp->type);
+        snprintf(key, 100, "%s@%02x", mp->prod_id, mp->type);
         redisReply *reply;
         reply = redisCommand(context, "LPUSH %s %s", key, mp->msg);
         freeReplyObject(reply);

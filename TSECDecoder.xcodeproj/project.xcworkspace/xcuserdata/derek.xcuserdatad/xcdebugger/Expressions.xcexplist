@@ -3,25 +3,27 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "decode_I010:decode-thread.c">
+         contextName = "decode_format_6:tsec-decoder.c">
          <PersistentStrings>
             <PersistentString
-               value = "buf[71]">
+               value = "size">
             </PersistentString>
             <PersistentString
-               value = "buf[72]">
-            </PersistentString>
-            <PersistentString
-               value = "buf[73]">
-            </PersistentString>
-            <PersistentString
-               value = "buf[74]">
+               value = "strlen(msg)">
             </PersistentString>
             <PersistentString
                value = "prod_id">
             </PersistentString>
             <PersistentString
-               value = "buf[70]">
+               value = "show_flag">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "decode_thread:decode-thread.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "*ret">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -64,10 +66,25 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "decode_thread:decode-thread.c">
+         contextName = "decode_I010:decode-thread.c">
          <PersistentStrings>
             <PersistentString
-               value = "*ret">
+               value = "buf[71]">
+            </PersistentString>
+            <PersistentString
+               value = "buf[72]">
+            </PersistentString>
+            <PersistentString
+               value = "buf[73]">
+            </PersistentString>
+            <PersistentString
+               value = "buf[74]">
+            </PersistentString>
+            <PersistentString
+               value = "prod_id">
+            </PersistentString>
+            <PersistentString
+               value = "buf[70]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

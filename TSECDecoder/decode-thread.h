@@ -19,6 +19,12 @@
 #define PROTOCOL_TAIL_1 0x0D
 #define PROTOCOL_TAIL_2 0x0A
 
+#define MARKET_TYPE_STOCK_TICK 0x10
+#define MARKET_TYPE_STOCK_ASK_BID 0x01
+#define MARKET_TYPE_FUR_BASIC 0x20
+#define MARKET_TYPE_FUR_TICK 0x21
+#define MARKET_TYPE_FUR_ASK_BID 0x22
+
 extern ringbuf_t g_ringbuf;
 extern uv_rwlock_t g_rwlock;
 extern uint8_t decode_atomic;
