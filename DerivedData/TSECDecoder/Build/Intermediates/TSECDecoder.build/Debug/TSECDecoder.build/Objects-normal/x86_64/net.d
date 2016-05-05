@@ -1,7 +1,7 @@
 dependencies: \
-  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/net.c \
-  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/fmacros.h \
-  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/net.h \
-  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/hiredis.h \
-  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/read.h \
-  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/sds.h
+  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/hiredis/net.c \
+  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/hiredis/fmacros.h \
+  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/hiredis/net.h \
+  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/hiredis/hiredis.h \
+  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/hiredis/read.h \
+  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/hiredis/sds.h

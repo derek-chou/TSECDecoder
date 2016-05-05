@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "queue.h"
+#include "uv.h"
 
 #define MAX_INFO_LEN 1024
 
@@ -23,6 +24,8 @@ typedef struct {
 
 extern queue_t *g_redis_queue;
 extern uint8_t redis_atomic;
+extern uv_rwlock_t g_redis_rwlock;
+
 
 void redis_thread(void *arg);
 

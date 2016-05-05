@@ -64,6 +64,10 @@ void decode_thread(void *arg) {
       
       if (buf[4] == 6) {
         decode_format_6(buf, tail_pos2);
+      } else if (buf[4] == 1) {
+        decode_format_1(buf, tail_pos2);
+      } else if (buf[4] == 3) {
+        decode_format_3(buf, tail_pos2);
       } else if (buf[1] == '1' && buf[2] == '1') {
         //I010 Last Price
         decode_I010(buf, tail_pos2);

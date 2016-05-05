@@ -12,5 +12,7 @@
 #include <stdio.h>
 
 void decode_format_6(uint8_t *buf, size_t size);
+void decode_format_1(uint8_t *buf, size_t size);
+void decode_format_3(uint8_t *buf, size_t size);
 
 #endif /* tsec_decoder_h */

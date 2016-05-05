@@ -9,8 +9,10 @@
 #include "redis-thread.h"
 #include <unistd.h>
 #include "hiredis.h"
+#include "decode-thread.h"
 
 queue_t *g_redis_queue;
+uv_rwlock_t g_redis_rwlock;
 uint8_t redis_atomic;
 
 void redis_thread(void *arg) {
@@ -24,26 +26,31 @@ void redis_thread(void *arg) {
     freeReplyObject(reply);
 
   while (1) {
-    while (__sync_fetch_and_add(&redis_atomic, 0) > 0) {
+    while (queue_count(g_redis_queue) > 0) {
+      uv_rwlock_wrlock(&g_redis_rwlock);
       msg_packet *mp = queue_pop_right(g_redis_queue);
-      __sync_fetch_and_add(&redis_atomic, -1);
-      
+      uv_rwlock_wrunlock(&g_redis_rwlock);
+    
       if (mp != NULL) {
         char key[100] = {0x00};
         snprintf(key, 100, "%s@%02x", mp->prod_id, mp->type);
-        redisReply *reply;
-        reply = redisCommand(context, "LPUSH %s %s", key, mp->msg);
-        freeReplyObject(reply);
+        redisReply *reply = NULL;
+        if (mp->type & MARKET_TYPE_STOCK_TICK) {
+          reply = redisCommand(context, "LPUSH %s %s", mp->prod_id, mp->msg);
+        } else if (mp->type & MARKET_TYPE_STOCK_BASIC) {
+          reply = redisCommand(context, "SET %s %s", key, mp->msg);
+        }
+        if (reply)
+          freeReplyObject(reply);
+        
         reply = redisCommand(context, "PUBLISH %s %s", key, mp->msg);
         freeReplyObject(reply);
         
-//        printf("%s %c %s\n", mp->prod_id, mp->type, mp->msg);
         free(mp);
       } else {
 //        printf("mp is NULL\n");
 //        usleep(200);
       }
-      break;
     }
     usleep(100);
   } //while 1

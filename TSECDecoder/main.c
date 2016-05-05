@@ -25,11 +25,12 @@ int main(int argc, const char * argv[]) {
   decode_atomic = 0;
 
   uv_rwlock_init(&g_rwlock);
+  uv_rwlock_init(&g_redis_rwlock);
   connect_to_server();
   uv_thread_create(&decode_thread_id, decode_thread, (void*)NULL);
   uv_thread_create(&redis_thread_id, redis_thread, (void*)NULL);
   uv_run(loop, UV_RUN_DEFAULT);
   
   uv_rwlock_destroy(&g_rwlock);
-  
+  uv_rwlock_destroy(&g_redis_rwlock);
 }

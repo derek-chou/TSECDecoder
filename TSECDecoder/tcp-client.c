@@ -18,8 +18,7 @@ uv_connect_t connect_req;
 
 void read_cb(uv_stream_t *server, ssize_t nread, uv_buf_t buf);
 
-void alloc_callback(uv_handle_t* handle, size_t suggested_size, uv_buf_t* buf)
-{
+void alloc_callback(uv_handle_t* handle, size_t suggested_size, uv_buf_t* buf) {
   buf->base = read_buf;
   buf->len = MAX_PACKET_SIZE;
 }
@@ -37,7 +36,7 @@ void connect_to_server() {
 
   loop = uv_default_loop();
   
-  if (uv_ip4_addr("192.168.11.43", 2100, &addr) != 0)
+  if (uv_ip4_addr("192.168.10.214", 2100, &addr) != 0)
     fprintf(stderr, "uv_ip4_addr fail");
   if (uv_tcp_init(loop, &tcp_handle) != 0)
     fprintf(stderr, "uv_tcp_init fail");
@@ -56,7 +55,7 @@ void read_cb(uv_stream_t *server, ssize_t nread, uv_buf_t buf) {
   
   static size_t max_used = 0;
   if (nread > 0) {
-    if (read_count % 50 == 0) {
+    if (read_count % 500 == 0) {
       //            printf("result: read %ld bytes.\n", nread);
       size_t used = ringbuf_bytes_used(g_ringbuf);
       if (used > max_used)

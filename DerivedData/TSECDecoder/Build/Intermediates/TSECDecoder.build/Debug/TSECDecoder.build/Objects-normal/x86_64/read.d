@@ -1,5 +1,5 @@
 dependencies: \
-  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/read.c \
-  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/fmacros.h \
-  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/read.h \
-  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/sds.h
+  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/hiredis/read.c \
+  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/hiredis/fmacros.h \
+  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/hiredis/read.h \
+  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/hiredis/sds.h
