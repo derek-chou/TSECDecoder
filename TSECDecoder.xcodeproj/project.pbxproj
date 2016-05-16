@@ -60,6 +60,7 @@
 		6562A04E1CB756AB00AD3317 /* ringbuf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ringbuf.h; sourceTree = "<group>"; };
 		657532731CE9A504003DFC02 /* ubuntu_readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ubuntu_readme.txt; sourceTree = "<group>"; };
 		657532741CE9BA24003DFC02 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		657532751CE9BD73003DFC02 /* cmake */ = {isa = PBXFileReference; lastKnownFileType = folder; path = cmake; sourceTree = "<group>"; };
 		659EF6C11CC68B580057575A /* fur-decoder.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "fur-decoder.c"; sourceTree = "<group>"; };
 		659EF6C21CC68B580057575A /* fur-decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "fur-decoder.h"; sourceTree = "<group>"; };
 		659EF6C61CC6911C0057575A /* atomic_defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = atomic_defs.h; path = libhl/atomic_defs.h; sourceTree = "<group>"; };
@@ -122,6 +123,7 @@
 		653B88871CB4D39D0030769D /* TSECDecoder */ = {
 			isa = PBXGroup;
 			children = (
+				657532751CE9BD73003DFC02 /* cmake */,
 				657532741CE9BA24003DFC02 /* CMakeLists.txt */,
 				659EF6C51CC691080057575A /* libhl */,
 				651A5B0C1CBF3C2500ED99CC /* hiredis */,
