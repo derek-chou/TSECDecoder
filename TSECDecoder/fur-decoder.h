@@ -10,6 +10,7 @@
 #define fur_decoder_h
 
 #include <stdio.h>
+#include <stdint.h>
 
 void decode_I010(uint8_t *buf, size_t size);
 void decode_I020(uint8_t *buf, size_t size);
