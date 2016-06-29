@@ -38,6 +38,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6511D4781CFD45A500074138 /* TSECDecoder.conf */ = {isa = PBXFileReference; lastKnownFileType = text; path = TSECDecoder.conf; sourceTree = "<group>"; };
 		651A5AEF1CBDD6BD00ED99CC /* tcp-client.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "tcp-client.c"; sourceTree = "<group>"; };
 		651A5AF01CBDD6BD00ED99CC /* tcp-client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "tcp-client.h"; sourceTree = "<group>"; };
 		651A5AFC1CBE534E00ED99CC /* redis-thread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "redis-thread.c"; sourceTree = "<group>"; };
@@ -61,6 +62,8 @@
 		657532731CE9A504003DFC02 /* ubuntu_readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ubuntu_readme.txt; sourceTree = "<group>"; };
 		657532741CE9BA24003DFC02 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		657532751CE9BD73003DFC02 /* cmake */ = {isa = PBXFileReference; lastKnownFileType = folder; path = cmake; sourceTree = "<group>"; };
+		657F2A9F1CFC37C30054EA5E /* log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
+		657F2AA01CFC37F80054EA5E /* log4crc */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = log4crc; sourceTree = "<group>"; };
 		659EF6C11CC68B580057575A /* fur-decoder.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "fur-decoder.c"; sourceTree = "<group>"; };
 		659EF6C21CC68B580057575A /* fur-decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "fur-decoder.h"; sourceTree = "<group>"; };
 		659EF6C61CC6911C0057575A /* atomic_defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = atomic_defs.h; path = libhl/atomic_defs.h; sourceTree = "<group>"; };
@@ -144,6 +147,9 @@
 				659EF6C11CC68B580057575A /* fur-decoder.c */,
 				659EF6C21CC68B580057575A /* fur-decoder.h */,
 				657532731CE9A504003DFC02 /* ubuntu_readme.txt */,
+				657F2A9F1CFC37C30054EA5E /* log.h */,
+				657F2AA01CFC37F80054EA5E /* log4crc */,
+				6511D4781CFD45A500074138 /* TSECDecoder.conf */,
 			);
 			path = TSECDecoder;
 			sourceTree = "<group>";
@@ -276,11 +282,23 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"/usr/local/Cellar/log4c/1.2.4/include/**",
+					"/usr/local/Cellar/libconfig/1.4.9/include/**",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"/usr/local/Cellar/log4c/1.2.4/lib/**",
+					"/usr/local/Cellar/libconfig/1.4.9/lib/**",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-I/usr/local/Cellar/libuv/HEAD/include";
-				OTHER_LDFLAGS = "-liconv";
+				OTHER_LDFLAGS = (
+					"-liconv",
+					"-llog4c",
+					"-lconfig",
+				);
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -316,11 +334,23 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"/usr/local/Cellar/log4c/1.2.4/include/**",
+					"/usr/local/Cellar/libconfig/1.4.9/include/**",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"/usr/local/Cellar/log4c/1.2.4/lib/**",
+					"/usr/local/Cellar/libconfig/1.4.9/lib/**",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-I/usr/local/Cellar/libuv/HEAD/include";
-				OTHER_LDFLAGS = "-liconv";
+				OTHER_LDFLAGS = (
+					"-liconv",
+					"-llog4c",
+					"-lconfig",
+				);
 				SDKROOT = macosx;
 			};
 			name = Release;

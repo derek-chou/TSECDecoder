@@ -10,11 +10,15 @@
 #include "tcp-client.h"
 #include "decode-thread.h"
 #include "redis-thread.h"
+#include <unistd.h>
+#include "log.h"
+#include "common.h"
 
 uv_tcp_t tcp_handle;
 char read_buf[MAX_PACKET_SIZE];
 uv_loop_t* loop;
 uv_connect_t connect_req;
+uint64_t g_receive_count = 0;
 
 void read_cb(uv_stream_t *server, ssize_t nread, uv_buf_t buf);
 
@@ -24,11 +28,21 @@ void alloc_callback(uv_handle_t* handle, size_t suggested_size, uv_buf_t* buf) {
 }
 
 void connect_cb(uv_connect_t* req, int status) {
-  assert(0 == status);
-  assert(0 == uv_read_start((uv_stream_t*) &tcp_handle,
-                            (uv_alloc_cb) alloc_callback,
-                            (uv_read_cb) read_cb));
-  printf("connected!!\n");
+  if (status != 0) {
+    LOG_ERROR(g_log, "tcp server connect fail!!");
+    usleep(1000 * 1000);
+    connect_to_server();
+//    return;
+  } else {
+    LOG_INFO(g_log, "tcp server connected");
+    
+    if (uv_read_start((uv_stream_t*) &tcp_handle, (uv_alloc_cb) alloc_callback,
+                      (uv_read_cb) read_cb) != 0) {
+      LOG_ERROR(g_log, "uv_read_start fail!!");
+      usleep(1000 * 1000);
+      connect_to_server();
+    }
+  }
 }
 
 void connect_to_server() {
@@ -36,43 +50,35 @@ void connect_to_server() {
 
   loop = uv_default_loop();
   
-  if (uv_ip4_addr("192.168.10.214", 2100, &addr) != 0)
-    fprintf(stderr, "uv_ip4_addr fail");
+  //if (uv_ip4_addr("192.168.12.208", 2100, &addr) != 0)
+  if (uv_ip4_addr(g_server_ip, g_server_port, &addr) != 0)
+    LOG_ERROR(g_log, "uv_ip4_addr fail");
+  
   if (uv_tcp_init(loop, &tcp_handle) != 0)
-    fprintf(stderr, "uv_tcp_init fail");
-  if (uv_tcp_connect(&connect_req, &tcp_handle, (const struct sockaddr*) &addr, connect_cb) != 0)
-    fprintf(stderr, "uv_tcp_connect fail");
+    LOG_ERROR(g_log, "uv_tcp_init fail");
+  
+  if (uv_tcp_connect(&connect_req, &tcp_handle, (const struct sockaddr*) &addr,
+                     connect_cb) != 0) {
+    LOG_ERROR(g_log, "uv_tcp_connect fail");
+    usleep(1000 * 1000);
+    connect_to_server();
+  }
 }
 
-
 void read_cb(uv_stream_t *server, ssize_t nread, uv_buf_t buf) {
-  static int read_count = 0;
-
   if (nread < 0) {
-    fprintf(stderr, "error read\n");
+    LOG_ERROR(g_log, "tcp read error");
     connect_to_server();
   }
   
-  static size_t max_used = 0;
   if (nread > 0) {
-    if (read_count % 500 == 0) {
-      //            printf("result: read %ld bytes.\n", nread);
-      size_t used = ringbuf_bytes_used(g_ringbuf);
-      if (used > max_used)
-        max_used = used;
-      
-      printf("ringbuf used = %ld, max = %ld\n", used, max_used);
-      printf("queue count = %ld\n", queue_count(g_redis_queue));
-    }
-    
     uv_rwlock_wrlock(&g_rwlock);
     ringbuf_memcpy_into(g_ringbuf, read_buf, nread);
     uv_rwlock_wrunlock(&g_rwlock);
     
-    
     //    if (nread == MAX_PACKET_SIZE)
     //      printf("too slow\n");
+    g_receive_count += nread;
   }
   
-  read_count++;
 }

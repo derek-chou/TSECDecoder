@@ -11,6 +11,7 @@
 #include "decode-thread.h"
 #include <iconv.h>
 #include <assert.h>
+#include "log.h"
 
 //格式一：集中市場普通股個股基本資料
 void decode_format_1(uint8_t *buf, size_t size) {
@@ -41,7 +42,6 @@ void decode_format_1(uint8_t *buf, size_t size) {
     char *find_name_ptr = strchr(prod_name, ' ');
     if (find_name_ptr != NULL)
       *find_name_ptr = 0x00;
-
   
   size_t in_size = sizeof(prod_name);
   char out[2*in_size+1];
@@ -52,7 +52,7 @@ void decode_format_1(uint8_t *buf, size_t size) {
   iconv_t cd = iconv_open("utf-8", "big5-2003");
   size_t iconv_ret = iconv(cd, &in_ptr, &in_size, &out_ptr, &out_size);
   if (iconv_ret != 0)
-    printf("iconv fail prod_id = %s\n", prod_id);
+    LOG_ERROR(g_log, "iconv fail prod_id = %s", prod_id);
   iconv_close(cd);
   
   snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"chname\":\"%s\",", out);

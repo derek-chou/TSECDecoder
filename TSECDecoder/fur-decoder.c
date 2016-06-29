@@ -11,6 +11,7 @@
 #include "decode-thread.h"
 
 void decode_I010(uint8_t *buf, size_t size) {
+  return;
   if (size < 77)
     return;
   
@@ -91,13 +92,20 @@ void decode_I020(uint8_t *buf, size_t size) {
     return;
   
   char msg[MAX_INFO_LEN] = {0x00};
+  char tmp[32];
+  
+  snprintf(&msg[strlen(msg)], 300-strlen(msg), "{");
+  
   //資料時間
-  snprintf(msg, MAX_INFO_LEN, "%02x:%02x:%02x.%02x#", buf[3], buf[4], buf[5], buf[6]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"datatime\":\"%02x:%02x:%02x.%02x\",",
+           buf[3], buf[4], buf[5], buf[6]);
   
   //流水序號
   char serial_no[9] = {0x00};
-  snprintf(serial_no, 9, "%02x%02x%02x%02x#", buf[7], buf[8], buf[9], buf[10]);
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x%02x%02x%02x#", buf[7], buf[8], buf[9], buf[10]);
+  snprintf(serial_no, 9, "%02x%02x%02x%02x#", buf[6], buf[7], buf[8], buf[9]);
+
+  snprintf(tmp, 32, "%02x%02x%02x%02x", buf[7], buf[8], buf[9], buf[10]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"seq\":%d,", atoi(tmp));
   
   //商品代號
   char prod_id[21] = {0x00};
@@ -109,17 +117,24 @@ void decode_I020(uint8_t *buf, size_t size) {
   //  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%s#", prod_id);
   
   //成交時間
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x:%02x:%02x.%02x#", buf[34], buf[35], buf[36], buf[37]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"time\":\"%02x:%02x:%02x.%02x\",",
+           buf[34], buf[35], buf[36], buf[37]);
+  
   
   //價格正('0')負('-')號
   //第一成交價
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%c%02x%02x%02x%02x%02x#", buf[38], buf[39], buf[40], buf[41], buf[42], buf[43]);
+  snprintf(tmp, 32, "%c%02x%02x%02x%02x.%02x", buf[38], buf[39], buf[40], buf[41], buf[42], buf[43]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"make_price\":%.2f,",
+           atof(tmp));
   
   //第一成交量
   //  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x%02x%02x%02x#", buf[44], buf[45], buf[46], buf[47]);
   
   //成交資料註記
   int match_count = buf[48] & 0x7f;
+  int first_packet = buf[48] & 0x80;
+  if (first_packet == 0)
+    return;
   //        for (int cnt = 0; cnt < match_count; cnt++) {
   //          //價格正('0')負('-')號
   //          printf("\t%c\n", buf[49 + cnt*8]);
@@ -130,10 +145,20 @@ void decode_I020(uint8_t *buf, size_t size) {
   //        }
   
   //成交總量
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x%02x%02x%02x", buf[49 + match_count*8],
-           buf[50 + match_count*8], buf[51 + match_count*8],
-           buf[52 + match_count*8]);
-  
+//  snprintf(tmp, 32, "%02x%02x%02x%02x", buf[49 + match_count*8],
+//           buf[50 + match_count*8], buf[51 + match_count*8],
+//           buf[52 + match_count*8]);
+  snprintf(tmp, 32, "%02x%02x%02x%x", buf[50 + match_count*8],
+           buf[51 + match_count*8], buf[52 + match_count*8],
+           buf[53 + match_count*8]);
+
+  int amount = 0;
+  amount = atoi(tmp);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"make_amount\":%d",
+           amount);
+
+  snprintf(&msg[strlen(msg)-1], MAX_INFO_LEN-strlen(msg), "}");
+
   //買進總筆數
   //  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x%02x%02x%02x#", buf[53 + match_count*8],
   //           buf[54 + match_count*8], buf[55 + match_count*8],
@@ -144,19 +169,21 @@ void decode_I020(uint8_t *buf, size_t size) {
   //           buf[58 + match_count*8], buf[59 + match_count*8],
   //           buf[60 + match_count*8]);
   
-  while (__sync_fetch_and_add(&redis_atomic, 1) <= 0) {
-    msg_packet *mp = malloc(sizeof(msg_packet));
-    mp->type = MARKET_TYPE_FUR_TICK;
-    snprintf(mp->prod_id, 20, "%s", prod_id);
-    snprintf(mp->serial_no, 8, "%s", serial_no);
-    snprintf(mp->msg, MAX_INFO_LEN, "%s", msg);
-    
-    queue_push_left(g_redis_queue, (void*)mp);
-    break;
-  }
+  //  while (__sync_fetch_and_add(&redis_atomic, 1) <= 0) {
+
+  uv_rwlock_wrlock(&g_redis_rwlock);
+  msg_packet *mp = malloc(sizeof(msg_packet));
+  mp->type = MARKET_TYPE_FUR_TICK;
+  snprintf(mp->prod_id, 20, "%s", prod_id);
+  snprintf(mp->serial_no, 8, "%s", serial_no);
+  snprintf(mp->msg, MAX_INFO_LEN, "%s", msg);
+  
+  queue_push_left(g_redis_queue, (void*)mp);
+  uv_rwlock_wrunlock(&g_redis_rwlock);
 }
 
 void decode_I080(uint8_t *buf, size_t size) {
+  return;
   if (size < 155)
     return;
   

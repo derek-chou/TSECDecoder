@@ -14,6 +14,8 @@
 
 extern uv_tcp_t tcp_handle;
 extern uv_loop_t* loop;
+extern uint64_t g_receive_count;
+
 
 void connect_to_server();
 void connect_cb(uv_connect_t* req, int status);

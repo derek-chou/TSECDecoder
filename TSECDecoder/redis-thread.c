@@ -10,6 +10,8 @@
 #include <unistd.h>
 #include "hiredis.h"
 #include "decode-thread.h"
+#include "log.h"
+#include <stdlib.h>
 
 queue_t *g_redis_queue;
 uv_rwlock_t g_redis_rwlock;
@@ -19,8 +21,11 @@ void redis_thread(void *arg) {
   redisContext *context = redisConnect("127.0.0.1", 6379);
   redisReply *reply= redisCommand(context, "AUTH %s", "apex@tw");
   if (reply == NULL || reply->type == REDIS_REPLY_ERROR) {
-    fprintf(stderr, "redis connect fail\n");
-  }
+    LOG_ERROR(g_log, "redis connect fail!!");
+    exit(-1);
+//    return;
+  } else
+    LOG_INFO(g_log, "redis connected");
   
   if (reply != NULL)
     freeReplyObject(reply);
@@ -34,12 +39,14 @@ void redis_thread(void *arg) {
       if (mp != NULL) {
         char key[100] = {0x00};
         snprintf(key, 100, "%s@%02x", mp->prod_id, mp->type);
+        
         redisReply *reply = NULL;
         if (mp->type & MARKET_TYPE_STOCK_TICK) {
           reply = redisCommand(context, "LPUSH %s %s", mp->prod_id, mp->msg);
         } else if (mp->type & MARKET_TYPE_STOCK_BASIC) {
           reply = redisCommand(context, "SET %s %s", key, mp->msg);
         }
+        
         if (reply)
           freeReplyObject(reply);
         
