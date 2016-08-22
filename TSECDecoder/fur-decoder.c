@@ -9,72 +9,98 @@
 #include "fur-decoder.h"
 #include "redis-thread.h"
 #include "decode-thread.h"
+#include "log.h"
 
 void decode_I010(uint8_t *buf, size_t size) {
-  return;
   if (size < 77)
     return;
   
   char msg[MAX_INFO_LEN] = {0x00};
+  char tmp[32];
+  
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "{");
   //資料時間
-  snprintf(msg, MAX_INFO_LEN, "%02x:%02x:%02x.%02x#", buf[3], buf[4], buf[5], buf[6]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"datatime\":\"%02x:%02x:%02x.%02x\",",
+           buf[3], buf[4], buf[5], buf[6]);
   
   //流水序號
   char serial_no[9] = {0x00};
   snprintf(serial_no, 9, "%02x%02x%02x%02x#", buf[7], buf[8], buf[9], buf[10]);
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x%02x%02x%02x#", buf[7], buf[8], buf[9], buf[10]);
   
+  snprintf(tmp, 32, "%02x%02x%02x%02x", buf[7], buf[8], buf[9], buf[10]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"seq\":%d,", atoi(tmp));
+
   //商品代號
-  char prod_id[11] = {0x00};
+  char prod_id[21] = {0x00};
   memcpy(prod_id, &buf[14], 10);
   char *find_ptr = strchr(prod_id, ' ');
   if (find_ptr != NULL)
     *find_ptr = 0x00;
   
   //第一漲停價
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x%02x%02x%02x%02x#", buf[24], buf[25], buf[26],
+  snprintf(tmp, 32, "%02x%02x%02x%02x%02x", buf[24], buf[25], buf[26],
            buf[27], buf[28]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"limit_up_1\":%ul,",
+           atoi(tmp));
   
   //參考價
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x%02x%02x%02x%02x#", buf[29], buf[30], buf[31],
+  snprintf(tmp, 32, "%02x%02x%02x%02x%02x", buf[29], buf[30], buf[31],
            buf[32], buf[33]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"reference_price\":%ul,",
+           atoi(tmp));
   
   //第一跌停價
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x%02x%02x%02x%02x#", buf[34], buf[35], buf[36],
+  snprintf(tmp, 32, "%02x%02x%02x%02x%02x", buf[34], buf[35], buf[36],
            buf[37], buf[38]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"limit_down_1\":%ul,",
+           atoi(tmp));
   
   //第二漲停價
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x%02x%02x%02x%02x#", buf[39], buf[40], buf[41],
+  snprintf(tmp, 32, "%02x%02x%02x%02x%02x", buf[39], buf[40], buf[41],
            buf[42], buf[43]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"limit_up_2\":%ul,",
+           atoi(tmp));
   
   //第二跌停價
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x%02x%02x%02x%02x#", buf[44], buf[45], buf[46],
+  snprintf(tmp, 32, "%02x%02x%02x%02x%02x", buf[44], buf[45], buf[46],
            buf[47], buf[48]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"limit_down_2\":%ul,",
+           atoi(tmp));
   
   //第三漲停價
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x%02x%02x%02x%02x#", buf[49], buf[50], buf[51],
+  snprintf(tmp, 32, "%02x%02x%02x%02x%02x", buf[49], buf[50], buf[51],
            buf[52], buf[53]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"limit_up_3\":%ul,",
+           atoi(tmp));
   
   //第三跌停價
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x%02x%02x%02x%02x#", buf[54], buf[55], buf[56],
+  snprintf(tmp, 32, "%02x%02x%02x%02x%02x", buf[54], buf[55], buf[56],
            buf[57], buf[58]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"limit_down_3\":%ul,",
+           atoi(tmp));
   
   //契約種類
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%c#", buf[59]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"prod_kind\":\"%c\",",
+           buf[59]);
   
   //價格小數位
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%d#", buf[60]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"decimal_locator\":%d,",
+           buf[60]);
   
   //履約價小數位
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%d#", buf[61]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"strike_price_decimal_locator\":%d,",
+           buf[61]);
   
   //上市日期
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x%02x%02x%02x#", buf[62], buf[63], buf[64], buf[65]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"begin_date\":\"%02x%02x%02x%02x\",",
+           buf[62], buf[63], buf[64], buf[65]);
   
   //下市日期
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x%02x%02x%02x#", buf[66], buf[67], buf[68], buf[69]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"end_date\":\"%02x%02x%02x%02x\"",
+           buf[66], buf[67], buf[68], buf[69]);
   
-  
+
+  /*
   while (__sync_fetch_and_add(&redis_atomic, 1) <= 0) {
     msg_packet *mp = malloc(sizeof(msg_packet));
     mp->type = MARKET_TYPE_FUR_BASIC;
@@ -85,6 +111,17 @@ void decode_I010(uint8_t *buf, size_t size) {
     queue_push_left(g_redis_queue, (void*)mp);
     break;
   }
+  */
+  
+  uv_rwlock_wrlock(&g_redis_rwlock);
+  msg_packet *mp = malloc(sizeof(msg_packet));
+  mp->type = MARKET_TYPE_FUR_BASIC;
+  snprintf(mp->prod_id, 20, "%s", prod_id);
+  snprintf(mp->serial_no, 8, "%s", serial_no);
+  snprintf(mp->msg, MAX_INFO_LEN, "%s", msg);
+  
+  queue_push_left(g_redis_queue, (void*)mp);
+  uv_rwlock_wrunlock(&g_redis_rwlock);
 }
 
 void decode_I020(uint8_t *buf, size_t size) {
@@ -94,7 +131,7 @@ void decode_I020(uint8_t *buf, size_t size) {
   char msg[MAX_INFO_LEN] = {0x00};
   char tmp[32];
   
-  snprintf(&msg[strlen(msg)], 300-strlen(msg), "{");
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "{");
   
   //資料時間
   snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"datatime\":\"%02x:%02x:%02x.%02x\",",
@@ -102,7 +139,7 @@ void decode_I020(uint8_t *buf, size_t size) {
   
   //流水序號
   char serial_no[9] = {0x00};
-  snprintf(serial_no, 9, "%02x%02x%02x%02x#", buf[6], buf[7], buf[8], buf[9]);
+  snprintf(serial_no, 9, "%02x%02x%02x%02x#", buf[7], buf[8], buf[9], buf[10]);
 
   snprintf(tmp, 32, "%02x%02x%02x%02x", buf[7], buf[8], buf[9], buf[10]);
   snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "\"seq\":%d,", atoi(tmp));
@@ -178,12 +215,13 @@ void decode_I020(uint8_t *buf, size_t size) {
   snprintf(mp->serial_no, 8, "%s", serial_no);
   snprintf(mp->msg, MAX_INFO_LEN, "%s", msg);
   
+  if (strcmp("TXFF6", mp->prod_id) == 0)
+    LOG_DEBUG(g_log, "%s %s\n", mp->prod_id, mp->msg);
   queue_push_left(g_redis_queue, (void*)mp);
   uv_rwlock_wrunlock(&g_redis_rwlock);
 }
 
 void decode_I080(uint8_t *buf, size_t size) {
-  return;
   if (size < 155)
     return;
   
@@ -194,7 +232,8 @@ void decode_I080(uint8_t *buf, size_t size) {
   //流水序號
   char serial_no[9] = {0x00};
   snprintf(serial_no, 9, "%02x%02x%02x%02x#", buf[7], buf[8], buf[9], buf[10]);
-  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x%02x%02x%02x#", buf[7], buf[8], buf[9], buf[10]);
+  snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x%02x%02x%02x#",
+           buf[7], buf[8], buf[9], buf[10]);
   
   //商品代號
   char prod_id[21] = {0x00};
@@ -222,7 +261,8 @@ void decode_I080(uint8_t *buf, size_t size) {
     snprintf(&msg[strlen(msg)], MAX_INFO_LEN-strlen(msg), "%02x%02x%02x%02x#",
              buf[offset + 6], buf[offset + 7], buf[offset + 8], buf[offset + 9]);
   }
-  
+
+  /*
   while (__sync_fetch_and_add(&redis_atomic, 1) <= 0) {
     msg_packet *mp = malloc(sizeof(msg_packet));
     mp->type = MARKET_TYPE_FUR_ASK_BID;
@@ -233,4 +273,15 @@ void decode_I080(uint8_t *buf, size_t size) {
     queue_push_left(g_redis_queue, (void*)mp);
     break;
   }
+  */
+  
+  uv_rwlock_wrlock(&g_redis_rwlock);
+  msg_packet *mp = malloc(sizeof(msg_packet));
+  mp->type = MARKET_TYPE_FUR_ASK_BID;
+  snprintf(mp->prod_id, 20, "%s", prod_id);
+  snprintf(mp->serial_no, 8, "%s", serial_no);
+  snprintf(mp->msg, 300, "%s", msg);
+  
+  queue_push_left(g_redis_queue, (void*)mp);
+  uv_rwlock_wrunlock(&g_redis_rwlock);
 }

@@ -13,6 +13,7 @@
 		651A5B071CBF2AA400ED99CC /* net.c in Sources */ = {isa = PBXBuildFile; fileRef = 651A5B031CBF2AA400ED99CC /* net.c */; };
 		651A5B081CBF2AA400ED99CC /* sds.c in Sources */ = {isa = PBXBuildFile; fileRef = 651A5B051CBF2AA400ED99CC /* sds.c */; };
 		651A5B0B1CBF2ACF00ED99CC /* read.c in Sources */ = {isa = PBXBuildFile; fileRef = 651A5B091CBF2ACF00ED99CC /* read.c */; };
+		6530CCC61D2A343E00F823F5 /* cJSON.c in Sources */ = {isa = PBXBuildFile; fileRef = 6530CCC31D2A343E00F823F5 /* cJSON.c */; };
 		653B88891CB4D39D0030769D /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 653B88881CB4D39D0030769D /* main.c */; };
 		653B88901CB4D4A50030769D /* libuv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 653B888F1CB4D4A50030769D /* libuv.a */; };
 		655930481CC640D100E425D0 /* tsec-decoder.c in Sources */ = {isa = PBXBuildFile; fileRef = 655930461CC640D100E425D0 /* tsec-decoder.c */; };
@@ -52,6 +53,8 @@
 		651A5B061CBF2AA400ED99CC /* sds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sds.h; path = hiredis/sds.h; sourceTree = "<group>"; };
 		651A5B091CBF2ACF00ED99CC /* read.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = read.c; path = hiredis/read.c; sourceTree = "<group>"; };
 		651A5B0A1CBF2ACF00ED99CC /* read.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = read.h; path = hiredis/read.h; sourceTree = "<group>"; };
+		6530CCC31D2A343E00F823F5 /* cJSON.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cJSON.c; sourceTree = "<group>"; };
+		6530CCC41D2A343E00F823F5 /* cJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cJSON.h; sourceTree = "<group>"; };
 		653B88851CB4D39D0030769D /* TSECDecoder */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TSECDecoder; sourceTree = BUILT_PRODUCTS_DIR; };
 		653B88881CB4D39D0030769D /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		653B888F1CB4D4A50030769D /* libuv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libuv.a; sourceTree = "<group>"; };
@@ -126,6 +129,8 @@
 		653B88871CB4D39D0030769D /* TSECDecoder */ = {
 			isa = PBXGroup;
 			children = (
+				6530CCC31D2A343E00F823F5 /* cJSON.c */,
+				6530CCC41D2A343E00F823F5 /* cJSON.h */,
 				657532751CE9BD73003DFC02 /* cmake */,
 				657532741CE9BA24003DFC02 /* CMakeLists.txt */,
 				659EF6C51CC691080057575A /* libhl */,
@@ -239,6 +244,7 @@
 				659EF6CD1CC6911C0057575A /* queue.c in Sources */,
 				6562A04F1CB756AB00AD3317 /* ringbuf.c in Sources */,
 				659EF6CE1CC6911C0057575A /* refcnt.c in Sources */,
+				6530CCC61D2A343E00F823F5 /* cJSON.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

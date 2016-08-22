@@ -67,7 +67,7 @@ int main(int argc, const char * argv[]) {
   connect_to_server();
   
   uv_thread_create(&decode_thread_id, decode_thread, (void*)g_stock_type);
-  uv_thread_create(&redis_thread_id, redis_thread, (void*)NULL);
+  //uv_thread_create(&redis_thread_id, redis_thread, (void*)NULL);
   
   uv_run(loop, UV_RUN_DEFAULT);
   

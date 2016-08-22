@@ -39,7 +39,9 @@ int get_now_sec() {
   gettimeofday (&tv, NULL);
   time (&now);
   timeinfo = localtime (&now);
-  snprintf(buf, sizeof(buf), "%04d", (int)timeinfo->tm_min * 60 +
+  snprintf(buf, sizeof(buf), "%06d",
+           (int)timeinfo->tm_hour * 3600 +
+           (int)timeinfo->tm_min * 60 +
            (int)timeinfo->tm_sec);
   return atoi(buf);
 }

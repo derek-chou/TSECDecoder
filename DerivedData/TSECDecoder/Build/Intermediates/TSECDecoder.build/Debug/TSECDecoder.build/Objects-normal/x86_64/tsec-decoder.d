@@ -24,4 +24,6 @@ dependencies: \
   /usr/local/Cellar/log4c/1.2.4/include/log4c/location_info.h \
   /usr/local/Cellar/log4c/1.2.4/include/log4c/rollingpolicy.h \
   /usr/local/Cellar/log4c/1.2.4/include/log4c/category.h \
-  /usr/local/Cellar/log4c/1.2.4/include/log4c/priority.h
+  /usr/local/Cellar/log4c/1.2.4/include/log4c/priority.h \
+  /Users/derek/Documents/Project/TSECDecoder/TSECDecoder/common.h \
+  /usr/local/Cellar/libconfig/1.4.9/include/libconfig.h

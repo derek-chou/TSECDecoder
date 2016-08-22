@@ -12,6 +12,7 @@
 #include <iconv.h>
 #include <assert.h>
 #include "log.h"
+#include "common.h"
 
 //格式一：集中市場普通股個股基本資料
 void decode_format_1(uint8_t *buf, size_t size) {
@@ -220,15 +221,22 @@ void decode_format_6(uint8_t *buf, size_t size) {
   }
   snprintf(&msg[strlen(msg)-1], MAX_INFO_LEN-strlen(msg), "}");
 
+
 //  while (__sync_fetch_and_add(&redis_atomic, 1) <= 0) {
   uv_rwlock_wrlock(&g_redis_rwlock);
-    msg_packet *mp = malloc(sizeof(msg_packet));
-    mp->type = info_type;
-    snprintf(mp->prod_id, 20, "%s", prod_id);
-    snprintf(mp->serial_no, 8, "%s", serial_no);
-    snprintf(mp->msg, MAX_INFO_LEN, "%s", msg);
+  msg_packet *mp = malloc(sizeof(msg_packet));
+  mp->type = info_type;
+  snprintf(mp->prod_id, 20, "%s", prod_id);
+  snprintf(mp->serial_no, 8, "%s", serial_no);
+  snprintf(mp->msg, MAX_INFO_LEN, "%s", msg);
     
-    queue_push_left(g_redis_queue, (void*)mp);
+  if (strcmp("2317", mp->prod_id) == 0) {
+    char now[32];
+    get_now_string(now, 32);
+    printf("%s %s\n", now, mp->msg);
+  }
+
+  queue_push_left(g_redis_queue, (void*)mp);
 //    break;
   uv_rwlock_wrunlock(&g_redis_rwlock);
 //  }

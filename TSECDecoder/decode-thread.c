@@ -36,6 +36,7 @@ void find_tail_pos(ringbuf_t rb, size_t *tail1, size_t *tail2) {
 void show_status() {
   static size_t max_used = 0;
   static int last_secs = 0;
+  static uint64_t last_receive_count = 0;
   
   if (last_secs == 0)
     last_secs = get_now_sec();
@@ -47,9 +48,12 @@ void show_status() {
     if (used > max_used)
       max_used = used;
     
-    LOG_INFO(g_log, "ringbuf %ld / %ld, queue %ld",
-             used, max_used, queue_count(g_redis_queue));
-    LOG_INFO(g_log, "data receive %llu", g_receive_count);
+//    LOG_INFO(g_log, "ringbuf %ld / %ld, queue %ld",
+//             used, max_used, queue_count(g_redis_queue));
+//    LOG_INFO(g_log, "data receive %llu(+%llu)",
+//             g_receive_count, (g_receive_count - last_receive_count));
+    
+    last_receive_count = g_receive_count;
   }
 }
 
